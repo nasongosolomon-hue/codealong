@@ -27,3 +27,13 @@ input {
   margin-bottom: 10px;
   padding: 10px;
 }
+
+button {
+  width: 100%;
+  padding: 10px;
+  background-color: #333;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
