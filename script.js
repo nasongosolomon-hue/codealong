@@ -67,3 +67,27 @@ ToDoList.prototype.removeTask = function(description) {
 const addressBook = new AddressBook();
 const placesList = new PlacesList();
 const toDoList = new ToDoList();
+
+// CONTACTS
+
+document.querySelector("#addContactBtn").addEventListener("click", function() {
+
+  const firstName = document.querySelector("#firstName").value;
+  const lastName = document.querySelector("#lastName").value;
+  const phone = document.querySelector("#phone").value;
+  const address = document.querySelector("#address").value;
+
+  const contact = new Contact(firstName, lastName, phone, address);
+
+  addressBook.addContact(contact);
+
+  const li = document.createElement("li");
+  li.innerText = contact.fullName() + " | " + contact.phoneNumber;
+
+  document.querySelector("#contactList").append(li);
+
+  document.querySelector("#firstName").value = "";
+  document.querySelector("#lastName").value = "";
+  document.querySelector("#phone").value = "";
+  document.querySelector("#address").value = "";
+});
