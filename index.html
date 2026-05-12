@@ -1,11 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Life Organizer App</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    
+
+  <h1>Life Organizer App</h1>
+
+  <div class="container">
+
+    <section>
+      <h2>Address Book</h2>
+
+      <input type="text" id="firstName" placeholder="First Name">
+      <input type="text" id="lastName" placeholder="Last Name">
+      <input type="text" id="phone" placeholder="Phone Number">
+      <input type="text" id="address" placeholder="Address">
+      <button id="addContactBtn">Add Contact</button>
+
+      <ul id="contactList"></ul>
+    </section>
+
+    <section>
+      <h2>Places You've Been</h2>
+
+      <input type="text" id="location" placeholder="Location">
+      <input type="text" id="landmarks" placeholder="Landmarks">
+      <input type="text" id="season" placeholder="Season">
+      <input type="text" id="notes" placeholder="Notes">
+      <button id="addPlaceBtn">Add Place</button>
+
+      <ul id="placeList"></ul>
+    </section>
+
+    <section>
+      <h2>To Do List</h2>
+
+      <input type="text" id="taskInput" placeholder="Task">
+      <button id="addTaskBtn">Add Task</button>
+
+      <ul id="taskList"></ul>
+    </section>
+
+  </div>
+
+  <script src="js/scripts.js"></script>
 </body>
 </html>
