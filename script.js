@@ -91,3 +91,27 @@ document.querySelector("#addContactBtn").addEventListener("click", function() {
   document.querySelector("#phone").value = "";
   document.querySelector("#address").value = "";
 });
+
+// PLACES
+
+document.querySelector("#addPlaceBtn").addEventListener("click", function() {
+
+  const location = document.querySelector("#location").value;
+  const landmarks = document.querySelector("#landmarks").value;
+  const season = document.querySelector("#season").value;
+  const notes = document.querySelector("#notes").value;
+
+  const place = new Place(location, landmarks, season, notes);
+
+  placesList.addPlace(place);
+
+  const li = document.createElement("li");
+  li.innerText = place.placeDetails() + " | " + place.notes;
+
+  document.querySelector("#placeList").append(li);
+
+  document.querySelector("#location").value = "";
+  document.querySelector("#landmarks").value = "";
+  document.querySelector("#season").value = "";
+  document.querySelector("#notes").value = "";
+});
