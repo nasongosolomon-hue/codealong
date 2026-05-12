@@ -61,3 +61,9 @@ ToDoList.prototype.removeTask = function(description) {
     return task.description !== description;
   });
 };
+
+// UI LOGIC
+
+const addressBook = new AddressBook();
+const placesList = new PlacesList();
+const toDoList = new ToDoList();
