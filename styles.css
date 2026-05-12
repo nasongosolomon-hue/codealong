@@ -40,3 +40,9 @@ button {
 button:hover {
   background-color: #555;
 }
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
