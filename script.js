@@ -115,3 +115,43 @@ document.querySelector("#addPlaceBtn").addEventListener("click", function() {
   document.querySelector("#season").value = "";
   document.querySelector("#notes").value = "";
 });
+
+// TASKS
+
+document.querySelector("#addTaskBtn").addEventListener("click", function() {
+
+  const taskInput = document.querySelector("#taskInput").value;
+
+  const task = new Task(taskInput);
+
+  toDoList.addTask(task);
+
+  const li = document.createElement("li");
+
+  const taskText = document.createElement("span");
+  taskText.innerText = task.description;
+
+  const doneButton = document.createElement("button");
+  doneButton.innerText = "Done";
+
+  const removeButton = document.createElement("button");
+  removeButton.innerText = "Remove";
+
+  doneButton.addEventListener("click", function() {
+    task.markDone();
+    taskText.style.textDecoration = "line-through";
+  });
+
+  removeButton.addEventListener("click", function() {
+    li.remove();
+    toDoList.removeTask(task.description);
+  });
+
+  li.append(taskText);
+  li.append(doneButton);
+  li.append(removeButton);
+
+  document.querySelector("#taskList").append(li);
+
+  document.querySelector("#taskInput").value = "";
+});
