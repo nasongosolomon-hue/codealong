@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="js/address-book-logic.js"></script>
+    <title>Address Book</title>
+</head>
+<body>
+    <div class="container">
+        <nav>
+            <a href="index.html">← Back to To-Do List</a>
+        </nav>
+        <h1>Address Book</h1>
+        
+        <form id="new-contact">
+            <input type="text" id="first-name" placeholder="First Name" required>
+            <input type="text" id="last-name" placeholder="Last Name" required>
+            <input type="tel" id="phone-number" placeholder="Phone Number" required>
+            <button type="submit" class="btn-add">Add Contact</button>
+        </form>
+
+        <section class="display-section">
+            <h3>Contacts</h3>
+            <ul id="contacts">
+                </ul>
+        </section>
+        
+        <div id="contact-details" class="hidden">
+            <hr>
+            <h4>Details:</h4>
+            <p>Name: <span class="full-name"></span></p>
+            <p>Phone: <span class="phone-number"></span></p>
+        </div>
+    </div>
+</body>
+</html>
