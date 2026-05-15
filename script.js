@@ -1,157 +1,114 @@
-// java script
-// BUSINESS LOGIC
-
-function Contact(firstName, lastName, phoneNumber, address) {
-  this.firstName = firstName;
-  this.lastName = lastName;
-  this.phoneNumber = phoneNumber;
-  this.address = address;
+// --- SHARED BUSINESS LOGIC HELPERS ---
+function assignId(obj) {
+  obj.currentId += 1;
+  return obj.currentId;
 }
 
-Contact.prototype.fullName = function() {
-  return this.firstName + " " + this.lastName;
-};
-
-function AddressBook() {
-  this.contacts = [];
-}
-
-AddressBook.prototype.addContact = function(contact) {
-  this.contacts.push(contact);
-};
-
-function Place(location, landmarks, season, notes) {
-  this.location = location;
-  this.landmarks = landmarks;
-  this.season = season;
-  this.notes = notes;
-}
-
-Place.prototype.placeDetails = function() {
-  return this.location + " - " + this.landmarks;
-};
-
-function PlacesList() {
-  this.places = [];
-}
-
-PlacesList.prototype.addPlace = function(place) {
-  this.places.push(place);
-};
-
-function Task(description) {
-  this.description = description;
-  this.done = false;
-}
-
-Task.prototype.markDone = function() {
-  this.done = true;
-};
-
+// --- TO-DO LIST BUSINESS LOGIC ---
 function ToDoList() {
-  this.tasks = [];
+  this.tasks = {};
+  this.currentId = 0;
 }
 
 ToDoList.prototype.addTask = function(task) {
-  this.tasks.push(task);
+  task.id = assignId(this);
+  this.tasks[task.id] = task;
 };
 
-ToDoList.prototype.removeTask = function(description) {
-  this.tasks = this.tasks.filter(function(task) {
-    return task.description !== description;
-  });
+ToDoList.prototype.deleteTask = function(id) {
+  if (this.tasks[id] === undefined) return false;
+  delete this.tasks[id];
+  return true;
 };
 
-// UI LOGIC
+function Task(description, priority) {
+  this.description = description;
+  this.priority = priority;
+  this.isDone = false;
+}
 
-const addressBook = new AddressBook();
-const placesList = new PlacesList();
-const toDoList = new ToDoList();
+// --- ADDRESS BOOK BUSINESS LOGIC ---
+function AddressBook() {
+  this.contacts = {};
+  this.currentId = 0;
+}
 
-// CONTACTS
+AddressBook.prototype.addContact = function(contact) {
+  contact.id = assignId(this);
+  this.contacts[contact.id] = contact;
+};
 
-document.querySelector("#addContactBtn").addEventListener("click", function() {
+function Contact(firstName, lastName, phoneNumber) {
+  this.firstName = firstName;
+  this.lastName = lastName;
+  this.phoneNumber = phoneNumber;
+}
 
-  const firstName = document.querySelector("#firstName").value;
-  const lastName = document.querySelector("#lastName").value;
-  const phone = document.querySelector("#phone").value;
-  const address = document.querySelector("#address").value;
+// --- UI LOGIC ---
+let toDoList = new ToDoList();
+let addressBook = new AddressBook();
 
-  const contact = new Contact(firstName, lastName, phone, address);
-
-  addressBook.addContact(contact);
-
-  const li = document.createElement("li");
-  li.innerText = contact.fullName() + " | " + contact.phoneNumber;
-
-  document.querySelector("#contactList").append(li);
-
-  document.querySelector("#firstName").value = "";
-  document.querySelector("#lastName").value = "";
-  document.querySelector("#phone").value = "";
-  document.querySelector("#address").value = "";
-});
-
-// PLACES
-
-document.querySelector("#addPlaceBtn").addEventListener("click", function() {
-
-  const location = document.querySelector("#location").value;
-  const landmarks = document.querySelector("#landmarks").value;
-  const season = document.querySelector("#season").value;
-  const notes = document.querySelector("#notes").value;
-
-  const place = new Place(location, landmarks, season, notes);
-
-  placesList.addPlace(place);
-
-  const li = document.createElement("li");
-  li.innerText = place.placeDetails() + " | " + place.notes;
-
-  document.querySelector("#placeList").append(li);
-
-  document.querySelector("#location").value = "";
-  document.querySelector("#landmarks").value = "";
-  document.querySelector("#season").value = "";
-  document.querySelector("#notes").value = "";
-});
-
-// TASKS
-
-document.querySelector("#addTaskBtn").addEventListener("click", function() {
-
-  const taskInput = document.querySelector("#taskInput").value;
-
-  const task = new Task(taskInput);
-
-  toDoList.addTask(task);
-
-  const li = document.createElement("li");
-
-  const taskText = document.createElement("span");
-  taskText.innerText = task.description;
-
-  const doneButton = document.createElement("button");
-  doneButton.innerText = "Done";
-
-  const removeButton = document.createElement("button");
-  removeButton.innerText = "Remove";
-
-  doneButton.addEventListener("click", function() {
-    task.markDone();
-    taskText.style.textDecoration = "line-through";
+// Helper to update the To-Do UI
+function displayTasks(listToDisplay) {
+  let taskListDiv = document.querySelector("#tasks-list");
+  let htmlString = "";
+  Object.keys(listToDisplay.tasks).forEach(function(key) {
+    const task = listToDisplay.tasks[key];
+    htmlString += `<li class="task-item" id="${task.id}">
+                    <span>[${task.priority}] ${task.description}</span>
+                    <button class="delete-btn" onclick="handleDeleteTask(${task.id})">Delete</button>
+                  </li>`;
   });
+  taskListDiv.innerHTML = htmlString;
+}
 
-  removeButton.addEventListener("click", function() {
-    li.remove();
-    toDoList.removeTask(task.description);
+function handleDeleteTask(id) {
+  toDoList.deleteTask(id);
+  displayTasks(toDoList);
+}
+
+// Helper to update the Address Book UI
+function displayContacts(bookToDisplay) {
+  let contactsDiv = document.querySelector("#contacts-list");
+  let htmlString = "";
+  Object.keys(bookToDisplay.contacts).forEach(function(key) {
+    const contact = bookToDisplay.contacts[key];
+    htmlString += `<li class="contact-item">${contact.firstName} ${contact.lastName} - ${contact.phoneNumber}</li>`;
   });
+  contactsDiv.innerHTML = htmlString;
+}
 
-  li.append(taskText);
-  li.append(doneButton);
-  li.append(removeButton);
+// MAIN EVENT LISTENER
+window.addEventListener("load", function() {
+  
+  // Logic for index.html (To-Do Page)
+  const taskForm = document.querySelector("#new-task");
+  if (taskForm) {
+    taskForm.addEventListener("submit", function(event) {
+      event.preventDefault();
+      const desc = document.querySelector("#new-task-desc").value;
+      const priority = document.querySelector("#new-task-priority").value;
+      let newTask = new Task(desc, priority);
+      toDoList.addTask(newTask);
+      displayTasks(toDoList);
+      taskForm.reset();
+    });
+  }
 
-  document.querySelector("#taskList").append(li);
-
+  // Logic for address-book.html (Address Book Page)
+  const contactForm = document.querySelector("#new-contact");
+  if (contactForm) {
+    contactForm.addEventListener("submit", function(event) {
+      event.preventDefault();
+      const first = document.querySelector("#first-name").value;
+      const last = document.querySelector("#last-name").value;
+      const phone = document.querySelector("#phone-number").value;
+      let newContact = new Contact(first, last, phone);
+      addressBook.addContact(newContact);
+      displayContacts(addressBook);
+      contactForm.reset();
+    });
+  }
+});
   document.querySelector("#taskInput").value = "";
 });
