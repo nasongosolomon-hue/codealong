@@ -1,52 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Life Organizer App</title>
-  <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="js/scripts.js"></script>
+    <title>Task Master</title>
 </head>
 <body>
+    <div class="container">
+        <h1>Task Master</h1>
+        
+        <section class="input-section">
+            <form id="new-task">
+                <input type="text" id="new-task-desc" placeholder="What needs to be done?" required>
+                <select id="new-task-priority">
+                    <option value="Low">Low Priority</option>
+                    <option value="Medium">Medium Priority</option>
+                    <option value="High">High Priority</option>
+                </select>
+                <button type="submit" class="btn-add">Add Task</button>
+            </form>
+        </section>
 
-  <h1>Life Organizer App</h1>
-
-  <div class="container">
-
-    <section>
-      <h2>Address Book</h2>
-
-      <input type="text" id="firstName" placeholder="First Name">
-      <input type="text" id="lastName" placeholder="Last Name">
-      <input type="text" id="phone" placeholder="Phone Number">
-      <input type="text" id="address" placeholder="Address">
-      <button id="addContactBtn">Add Contact</button>
-
-      <ul id="contactList"></ul>
-    </section>
-
-    <section>
-      <h2>Places You've Been</h2>
-
-      <input type="text" id="location" placeholder="Location">
-      <input type="text" id="landmarks" placeholder="Landmarks">
-      <input type="text" id="season" placeholder="Season">
-      <input type="text" id="notes" placeholder="Notes">
-      <button id="addPlaceBtn">Add Place</button>
-
-      <ul id="placeList"></ul>
-    </section>
-
-    <section>
-      <h2>To Do List</h2>
-
-      <input type="text" id="taskInput" placeholder="Task">
-      <button id="addTaskBtn">Add Task</button>
-
-      <ul id="taskList"></ul>
-    </section>
-
-  </div>
-
-  <script src="js/scripts.js"></script>
+        <section class="list-section">
+            <ul id="tasks-list">
+                </ul>
+        </section>
+    </div>
+</body>
+</html>
 </body>
 </html>
